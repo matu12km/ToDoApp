@@ -5,8 +5,6 @@ import { TodoItemDetails } from './TodoItemDetails';
 
 type Props = {
   id: number;
-  completed: boolean;
-  onComplete: () => void;
 };
 
 export const TodoItem = ({ id }: Props) => {
