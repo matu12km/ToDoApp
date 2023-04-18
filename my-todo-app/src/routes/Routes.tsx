@@ -5,6 +5,7 @@ import { FutureTasksPage } from '../component/pages/FutureTasksPage';
 import { NoDeadLineTasksPage } from '../component/pages/NoDeadLineTasksPage';
 import { CompleatTasksPage } from '../component/pages/CompleatTasksPage';
 import { SettingPage } from '../component/pages/SettingPage';
+import { ExpiredTaskPage } from '../component/pages/ExpiredTaskPage';
 
 export const RoutesComponent = () => {
   return (
@@ -13,6 +14,7 @@ export const RoutesComponent = () => {
       <Route path="/today" element={<TodaysTasksPage />} />
       <Route path="/future" element={<FutureTasksPage />} />
       <Route path="/nodeadline" element={<NoDeadLineTasksPage />} />
+      <Route path="/expired" element={<ExpiredTaskPage />} />
       <Route path="/compleated" element={<CompleatTasksPage />} />
       <Route path="/setting" element={<SettingPage />} />
     </Routes>

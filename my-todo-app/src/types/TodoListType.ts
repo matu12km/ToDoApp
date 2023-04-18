@@ -6,3 +6,8 @@ export type Task = {
   udpatedDate: Date;
   completed: boolean;
 };
+export type ThemeColor ={
+  bgColor: string;
+  textColor: string;
+  accentColor: string;
+}
