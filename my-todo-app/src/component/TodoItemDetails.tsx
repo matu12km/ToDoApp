@@ -36,7 +36,7 @@ export const TodoItemDetails = ({ show, setShow, id }: { show: boolean, setShow:
               <h2>内容</h2>
               <p className="text-gray-600 text-sm tracking-normal leading-tight mb-4">{task[0].content}</p>
               <h2>期限</h2>
-              <p className="text-gray-600 text-sm tracking-normal leading-tight mb-4">{new Date(task[0].scheduledDate).toISOString().split('T')[0]}</p>
+              <p className="text-gray-600 text-sm tracking-normal leading-tight mb-4">{task[0].scheduledDate !=null && new Date(task[0].scheduledDate).toISOString().split('T')[0]}</p>
               <h2>更新日</h2>
               <p className="text-gray-600 text-sm tracking-normal leading-tight mb-4">{new Date(task[0].udpatedDate).toISOString().split('T')[0]}</p>
               <h2>ステータス</h2>
