@@ -7,34 +7,35 @@ import { Task } from "../types/TodoListType"
 
 export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) => {
   const [tasks, setTasks] = useRecoilState<Task[]>(tasksState)
-  const [title, setTitle] = useState<string>("")
-  const [content, setContent] = useState<string>("")
-  const [scheduledDate, setScheduledDate] = useState<Date>()
 
-  const { register, handleSubmit, formState: { errors } } = useForm<Task>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<Task>({
     mode: "onBlur",
-    criteriaMode: "all",
     defaultValues: {
       title: "",
       content: "",
-      scheduledDate: new Date()
+      scheduledDate: null
     }
   });
 
-  const handleAddTask = () => {
+  const handleAddTask = async(data: { id?: number; title: any; content: any; scheduledDate: any; udpatedDate?: Date; completed?: boolean; }) => {
+    
     const nowDate = new Date();
     const newTask = {
       id: Date.now(),
-      title,
-      content,
-      scheduledDate: scheduledDate ? scheduledDate : nowDate,
+      title:data.title,
+      content:data.content,
+      scheduledDate: data.scheduledDate,
       udpatedDate: nowDate,
       completed: false
     }
+    console.log(data)
     setTasks([...tasks, newTask]);
-    setTitle("");
-    setContent("");
-    setScheduledDate(nowDate)
+    reset({
+      title: "",
+      content: "",
+      scheduledDate: null
+    })
+    setShow(false)
   };
 
   if (show) {
@@ -45,14 +46,13 @@ export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) 
             <div className="w-full text-gray-600 mb-4 text-xl text-center">
               タスク追加
             </div>
-            <form onSubmit={handleSubmit(handleAddTask)}>
+            <form onSubmit={handleSubmit(async (data) => await handleAddTask(data))}>
               <div className="w-full flex justify-around mt-4">
                 <label className="text-gray-600 font-bold mt-1">タイトル</label>
                 <input className="w-3/4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                  type="text" value={title}
+                  type="text" 
                   {...register('title', {
                     required: '必須項目です',
-                    onChange: (e) => setTitle(e.target.value)
                   })} />
               </div>
               <ErrorMessage
@@ -69,10 +69,9 @@ export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) 
               <div className="w-full flex justify-around mt-4">
                 <label className="text-gray-600 font-bold mt-1">内容</label>
                 <textarea className="w-3/4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
-                  rows={5} value={content}
+                  rows={5}
                   {...register('content', {
                     required: '必須項目です',
-                    onChange: (e) => setContent(e.target.value)
                   })} />
 
               </div>
@@ -93,10 +92,13 @@ export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) 
                   className="w-3/4 text-gray-600 focus:outline-none focus:border focus:border-indigo-700"
                   placeholder="YY/MM/DD"
                   {...register('scheduledDate', {
-                    onChange: (e) => setScheduledDate(new Date(e.target.value))
                   })} />
 
               </div>
+              <div className="flex items-center justify-center w-full">
+                <button type='submit' className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">追加</button>
+              </div>
+            </form>
               <button className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
                 onClick={() => setShow(false)} aria-label="close modal" role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -105,10 +107,6 @@ export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) 
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
-              <div className="flex items-center justify-center w-full">
-                <button type='submit' className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">追加</button>
-              </div>
-            </form>
           </div>
         </div>
       </div>

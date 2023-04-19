@@ -2,7 +2,7 @@ export type Task = {
   id: number;
   title: string;
   content: string;
-  scheduledDate: Date;
+  scheduledDate: Date | null;
   udpatedDate: Date;
   completed: boolean;
 };

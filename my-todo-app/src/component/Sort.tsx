@@ -11,7 +11,8 @@ export const Sort = ({ setOrder, setDisplayed, setCompleatedFlg }: { setOrder: a
         </select>
         <span className="ml-2">表示件数</span>
         <select className="border border-gray-300 rounded-md px-2 py-1 w-20"
-          onChange={(e) => setOrder(e.target.value)}>
+          onChange={(e) => setDisplayed(e.target.value)}>
+          <option value="9999">全件</option>
           <option value="10">10件</option>
           <option value="20">20件</option>
           <option value="50">50件</option>
@@ -19,7 +20,7 @@ export const Sort = ({ setOrder, setDisplayed, setCompleatedFlg }: { setOrder: a
         </select>
         <span className="ml-2">完了したタスクを非表示</span>
         <input type="checkbox" className="ml-2"
-          onChange={(e) => setOrder(e.target.value)} />
+          onChange={(e) => setCompleatedFlg(e.target.checked)} />
       </div>
     </div>
   )
