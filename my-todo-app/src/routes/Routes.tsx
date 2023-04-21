@@ -7,7 +7,11 @@ import { CompleatTasksPage } from '../component/pages/CompleatTasksPage';
 import { SettingPage } from '../component/pages/SettingPage';
 import { ExpiredTaskPage } from '../component/pages/ExpiredTaskPage';
 
-export const RoutesComponent = () => {
+/**
+ * ルーティングを定義するコンポーネント
+ * @returns {JSX.Element}
+ */
+export const RoutesComponent = (): JSX.Element => {
   return (
     <Routes>
       <Route path="/" element={<AllBoardPage />} />

@@ -1,5 +1,9 @@
-
-export const Sort = ({ setOrder, setDisplayed, setCompleatedFlg }: { setOrder: any, setDisplayed: any, setCompleatedFlg: any }) => {
+/**
+ * 並び替えコンポーネント
+ * @param {object} props
+ * @returns {JSON.Element}
+ */
+export const Sort = ({ setOrder, setDisplayed, setCompleatedFlg }: { setOrder: any, setDisplayed: any, setCompleatedFlg: any }): JSX.Element => {
   return (
     <div className="flex justify-end">
       <div className="flex items-center">

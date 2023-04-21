@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { AddTodoItem } from "./AddTodoItem";
-export const AddTodoButton = () => {
+
+/**
+ * タスクを追加するボタン
+ * @returns {JSX.Element} - タスクを追加するボタン
+ */
+export const AddTodoButton = (): JSX.Element => {
   const [show, setShow] = useState(false);
 
   const handleClicked = () => {

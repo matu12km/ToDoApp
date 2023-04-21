@@ -1,5 +1,9 @@
-
-export const ContrastAlertModal = ({ show, setShow, setOnConfirm}: { show: boolean, setShow: any, setOnConfirm: any}) => {
+/**
+ * コントラスト比が低い場合に表示するモーダル
+ * @param {object} props
+ * @returns {JSX.Element | null} - コントラスト比が低い場合に表示するモーダル
+ */
+export const ContrastAlertModal = ({ show, setShow, setOnConfirm}: { show: boolean, setShow: any, setOnConfirm: any}): JSX.Element | null => {
 
   
   const handleCancel = () => {

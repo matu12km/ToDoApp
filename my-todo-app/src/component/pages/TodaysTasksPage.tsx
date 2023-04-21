@@ -1,7 +1,10 @@
 import { TodoList } from "../TodoList";
 import { AddTodoButton } from "../AddTodoButton";
-
-export const TodaysTasksPage = () => {
+/**
+ * 今日のタスクを表示するページ
+ * @returns {JSX.Element} - 今日のタスクを表示するページ
+ */
+export const TodaysTasksPage = (): JSX.Element => {
   
   return (
     <div className="h-full ml-14 mt-16 mb-10 md:ml-72">

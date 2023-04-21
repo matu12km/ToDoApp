@@ -1,7 +1,11 @@
 import { TodoList } from "../TodoList";
 import { AddTodoButton } from "../AddTodoButton";
 
-export const AllBoardPage = () => {
+/**
+ * すべてのタスクを表示するページ
+ * @returns {JSX.Element} - すべてのタスクを表示するページ
+ */
+export const AllBoardPage = (): JSX.Element => {
 
   return (
     <div className="h-full ml-14 mt-16 mb-10 md:ml-72">

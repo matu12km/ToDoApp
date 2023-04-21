@@ -6,7 +6,11 @@ import { checkContrastRatio } from "../../functions/ColorContrastChecker";
 import { ContrastAlertModal } from "../settings/ContrastAlertModal";
 import { getAccentColor } from "../../functions/GetAccentColor";
 
-export const SettingPage = () => {
+/**
+ * 設定ページを表示するコンポーネント
+ * @returns {JSX.Element} - 設定ページ
+ */
+export const SettingPage = (): JSX.Element => {
   const [themeColor, setThemeColor] = useRecoilState<ThemeColor>(themeColorState);
   //テーマ背景色
   const [themeBgColor, setThemeBgColor] = useState<string>(themeColor.bgColor);

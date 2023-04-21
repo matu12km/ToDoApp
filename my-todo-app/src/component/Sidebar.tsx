@@ -3,16 +3,22 @@ import { Link } from "react-router-dom"
 import { useRecoilValue } from "recoil"
 import { themeColorState } from "../stores/TaskState"
 
-export const SideBar = () => {
+/**
+ * サイドバーを表示するコンポーネント
+ * @returns {JSX.Element} - サイドバー
+ */
+export const SideBar = (): JSX.Element => {
   const themeColor = useRecoilValue(themeColorState);
   const [isHover, setIsHover] = useState(false);
   const [hoverItem, setHoverItem] = useState("");
 
+  // マウスオーバー時の処理
   const handleHover = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     setIsHover(true);
     setHoverItem(e.currentTarget.id);
   }
 
+  // マウスアウト時の処理
   const handleLeave = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     if(hoverItem === e.currentTarget.id){
       setIsHover(false);
@@ -20,6 +26,7 @@ export const SideBar = () => {
     }
     
   }
+  // マウスオーバー時のスタイル
   const menuItemStyle = {
     borderColor: isHover ? themeColor.accentColor : "transparent",
   }

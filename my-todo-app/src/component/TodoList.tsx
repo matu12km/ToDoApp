@@ -14,6 +14,7 @@ import { Sort } from "./Sort"
 export const TodoList = ({ taskFlag }: { taskFlag: String }): JSX.Element => {
   // タスク一覧を取得
   const [tasks, setTasks] = useRecoilState<Task[]>(tasksState);
+
   let tempTasks = tasks.slice();
   // taskFlagによって表示するタスクをフィルターする
   switch (taskFlag) {

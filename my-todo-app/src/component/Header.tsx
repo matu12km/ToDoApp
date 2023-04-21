@@ -1,7 +1,10 @@
 import { useRecoilValue } from 'recoil';
 import { themeColorState } from '../stores/TaskState';
-
-export const Header = () => {
+/**
+ * ヘッダーを表示するコンポーネント
+ * @returns {JSX.Element} - ヘッダー
+ */
+export const Header = (): JSX.Element => {
   const themeColor = useRecoilValue(themeColorState);
   return (
     <div className="fixed w-full flex items-center justify-between h-14 text-white z-10 shadow-lg z-50" style={{backgroundColor:themeColor.bgColor,color:themeColor.textColor}}>

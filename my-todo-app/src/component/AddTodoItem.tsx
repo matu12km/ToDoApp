@@ -5,9 +5,13 @@ import { ErrorMessage } from "@hookform/error-message";
 import { tasksState } from "../stores/TaskState"
 import { Task } from "../types/TodoListType"
 
-export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) => {
+/**
+ * タスク追加モーダルを表示するコンポーネント
+ * @param {Object} { show, setShow } - タスク追加モーダルの表示・非表示を管理する
+ * @returns {JSX.Element | null} - タスク追加モーダル
+ */
+export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }): JSX.Element | null => {
   const [tasks, setTasks] = useRecoilState<Task[]>(tasksState)
-
   const { register, handleSubmit, reset, formState: { errors } } = useForm<Task>({
     mode: "onBlur",
     defaultValues: {
@@ -17,8 +21,11 @@ export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) 
     }
   });
 
-  const handleAddTask = async(data: { id?: number; title: any; content: any; scheduledDate: any; udpatedDate?: Date; completed?: boolean; }) => {
-    
+  /**
+   * タスク追加ボタンを押下した時の処理
+   * @param {Object} data - タスクの情報
+   */
+  const handleAddTask = async(data: { id?: number; title: string; content: string; scheduledDate: Date | null; udpatedDate?: Date; completed?: boolean; }) => {
     const nowDate = new Date();
     const newTask = {
       id: Date.now(),
@@ -40,7 +47,7 @@ export const AddTodoItem = ({ show, setShow }: { show: boolean, setShow: any }) 
 
   if (show) {
     return (
-      <div className="py-12 bg-gray-700 transition duration-150 ease-in-out z-10 absolute top-0 right-0 bottom-0 left-0" id="modal">
+      <div className="py-12 bg-gray-700 transition duration-150 ease-in-out z-10 fixed top-0 right-0 bottom-0 left-0" id="modal">
         <div role="alert" className="container mx-auto w-11/12 md:w-2/3 max-w-lg">
           <div className="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400">
             <div className="w-full text-gray-600 mb-4 text-xl text-center">

@@ -6,8 +6,12 @@ import { TodoItemDetails } from './TodoItemDetails';
 type Props = {
   id: number;
 };
-
-export const TodoItem = ({ id }: Props) => {
+/**
+ * タスクを表示するコンポーネント
+ * @param {number} id - タスクのid
+ * @returns {JSX.Element} - タスク
+ */
+export const TodoItem = ({ id }: Props): JSX.Element => {
   const [tasks, setTasks] = useRecoilState(tasksState);
   const [show, setShow] = useState(false);
   const title = tasks.find((task) => task.id === id)?.title;
