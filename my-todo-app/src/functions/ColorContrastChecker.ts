@@ -4,20 +4,20 @@ const SRGB_ALPHA = 0.055;
 
 /**
  * HTMLカラーコードをsRGBに変換する関数
- * @param {string} colorCode - HTMLカラーコード 
+ * @param {string} colorCode - HTMLカラーコード
  * @returns {[number, number, number]} sRGB値
  */
 export function convertHtmlColorToSrgb(colorCode: string): [number, number, number] {
-  const hex = colorCode.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (r, g, b) => r + r + g + g + b + b);
-  const rgb = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (rgb) {
-    const r = parseInt(rgb[1], 16);
-    const g = parseInt(rgb[2], 16);
-    const b = parseInt(rgb[3], 16);
+  const hex = colorCode.replace(/^#?([\da-f])([\da-f])([\da-f])$/i, (r, g, b) => r + r + g + g + b + b);
+  const rgb = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex);
+  if (rgb != undefined) {
+    const r = Number.parseInt(rgb[1], 16);
+    const g = Number.parseInt(rgb[2], 16);
+    const b = Number.parseInt(rgb[3], 16);
     return [r, g, b];
-  } else {
+  } 
     throw new Error(`${colorCode} HTMLカラーコードが不正です`);
-  }
+  
 }
 
 /**
@@ -27,11 +27,11 @@ export function convertHtmlColorToSrgb(colorCode: string): [number, number, numb
  */
 export function toSrgbComponent(value: number): number {
   const v = value / 255;
-  if (v <= 0.04045) {
+  if (v <= 0.040_45) {
     return v / 12.92;
-  } else {
-    return Math.pow((v + SRGB_ALPHA) / (1 + SRGB_ALPHA), GAMMA);
-  }
+  } 
+    return ((v + SRGB_ALPHA) / (1 + SRGB_ALPHA))**GAMMA;
+  
 }
 
 /**
@@ -69,11 +69,11 @@ function calculateContrastRatio(l1: number, l2: number): number {
 function checkW3CContrastLevel(ratio: number): string {
   if (ratio >= 7) {
     return 'AAA';
-  } else if (ratio >= 4.5) {
+  } if (ratio >= 4.5) {
     return 'AA';
-  } else {
+  } 
     return 'Fail';
-  }
+  
 }
 
 /**

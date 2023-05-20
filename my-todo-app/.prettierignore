@@ -1,0 +1,8 @@
+package.json
+package-lock.json
+dist
+docs
+node_modules
+.gitignore
+*.json
+*.yml

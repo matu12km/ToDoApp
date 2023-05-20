@@ -7,20 +7,20 @@
  * udpatedDate タスクの更新日
  * completed タスクの完了状態
  */
-export type Task = {
+export interface Task {
   id: number;
   title: string;
   content: string;
   scheduledDate: Date | null;
   udpatedDate: Date;
   completed: boolean;
-};
+}
 /**
  * ThemeColorの型定義
  * bgColor 背景色
  * textColor 文字色
  */
-export type ThemeColor ={
+export interface ThemeColor {
   bgColor: string;
   textColor: string;
   accentColor: string;

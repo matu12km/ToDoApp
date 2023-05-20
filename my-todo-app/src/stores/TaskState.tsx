@@ -1,13 +1,13 @@
 import { recoilPersist } from 'recoil-persist';
 import { atom } from 'recoil';
-import { Task,ThemeColor } from '../types/TodoListType';
+import { type Task, type ThemeColor } from '../types/TodoListType';
 
 /**
  * recoil-persistを使って、ローカルストレージにデータを保存する
  */
 const { persistAtom } = recoilPersist({
   key: 'my-todo-app',
-  storage: localStorage,
+  storage: localStorage
 });
 
 /**
@@ -16,7 +16,7 @@ const { persistAtom } = recoilPersist({
 export const tasksState = atom<Task[]>({
   key: 'tasksState',
   default: [],
-  effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistAtom]
 });
 
 /**
@@ -27,7 +27,7 @@ export const themeColorState = atom<ThemeColor>({
   default: {
     bgColor: '#1e40af',
     textColor: '#ffffff',
-    accentColor: '#fbbf24',
+    accentColor: '#fbbf24'
   },
-  effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistAtom]
 });

@@ -1,4 +1,4 @@
-import { convertHtmlColorToSrgb } from "./ColorContrastChecker";
+import { convertHtmlColorToSrgb } from './ColorContrastChecker';
 
 /**
  * アクセントカラーを求める関数
@@ -13,13 +13,13 @@ export function getAccentColor(colorCode: string): string {
   const hsl = srgbToHsl(rgb[0], rgb[1], rgb[2]);
 
   // HSLから補色を求める
-  let similarH  = (hsl[0] + 180) % 360;
-  if (similarH  < 0) {
-    similarH  += 360;
+  let similarH = (hsl[0] + 180) % 360;
+  if (similarH < 0) {
+    similarH += 360;
   }
 
   // HSLからHTMLカラーコードに変換する
-  const accentRGB = hslToRgb(similarH , hsl[1], hsl[2]);
+  const accentRGB = hslToRgb(similarH, hsl[1], hsl[2]);
   const accentColorCode = rgbToHex(accentRGB[0], accentRGB[1], accentRGB[2]);
 
   // HTMLカラーコードを返す
@@ -45,19 +45,30 @@ function srgbToHsl(r: number, g: number, b: number): [number, number, number] {
   const cmin = Math.min(red, green, blue);
 
   // 色相を求める
-  let delta = cmax - cmin;
+  const delta = cmax - cmin;
   let h = 0;
   let s = 0;
-  let l = 0.5 * (cmin + cmax);
+  const l = 0.5 * (cmin + cmax);
 
   // 彩度を求める
   if (delta !== 0) {
-    if (cmax === r) {
+    switch (cmax) {
+    case r: {
       h = ((g - b) / delta) % 6;
-    } else if (cmax === g) {
+    
+    break;
+    }
+    case g: {
       h = (b - r) / delta + 2;
-    } else if (cmax === b) {
+    
+    break;
+    }
+    case b: {
       h = (r - g) / delta + 4;
+    
+    break;
+    }
+    // No default
     }
     h = Math.round(h * 60);
     if (h < 0) {
@@ -85,9 +96,9 @@ function srgbToHsl(r: number, g: number, b: number): [number, number, number] {
  */
 function hslToRgb(h: number, s: number, l: number): [number, number, number] {
   const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = l - c / 2;
-  let r, g, b;
+  let r; let g; let b;
   if (h >= 0 && h < 60) {
     [r, g, b] = [c, x, 0];
   } else if (h >= 60 && h < 120) {
@@ -117,8 +128,10 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
 function rgbToHex(r: number, g: number, b: number): string {
   // RGB値を0〜255の範囲にスケーリングし、16進数に変換
   const toHex = (x: number) => {
-    const hex = Math.max(0, Math.min(255, Math.round(x))).toString(16).padStart(2, '0');
-    return hex.length === 1 ? '0' + hex : hex;
+    const hex = Math.max(0, Math.min(255, Math.round(x)))
+      .toString(16)
+      .padStart(2, '0');
+    return hex.length === 1 ? `0${  hex}` : hex;
   };
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
