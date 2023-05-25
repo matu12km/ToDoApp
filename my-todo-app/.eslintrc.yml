@@ -44,4 +44,5 @@ ignorePatterns:
   - postcss.config.js
   - dist
   - docs
+  - tests
 

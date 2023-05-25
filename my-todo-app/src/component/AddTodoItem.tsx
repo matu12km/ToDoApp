@@ -7,9 +7,9 @@ import { type Task } from '../types/TodoListType';
 /**
  * タスク追加モーダルを表示するコンポーネント
  * @param {Object} { show, setShow } - タスク追加モーダルの表示・非表示を管理する
- * @returns {JSX.Element | null} - タスク追加モーダル
+ * @returns {JSX.Element | undefined} - タスク追加モーダル
  */
-export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }): JSX.Element | null {
+export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }): JSX.Element | undefined {
   const [tasks, setTasks] = useRecoilState<Task[]>(tasksState);
   const {
     register,
@@ -21,7 +21,7 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
     defaultValues: {
       title: '',
       content: '',
-      scheduledDate: null
+      scheduledDate: undefined
     }
   });
 
@@ -46,18 +46,18 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
       udpatedDate: nowDate,
       completed: false
     };
-    console.log(data);
+    // console.log(data);
     setTasks([...tasks, newTask]);
     reset({
       title: '',
       content: '',
-      scheduledDate: null
+      scheduledDate: undefined
     });
     setShow(false);
   };
 
-  if (show) {
     return (
+      show ?
       <div
         className='py-12 bg-gray-700 transition duration-150 ease-in-out z-10 fixed top-0 right-0 bottom-0 left-0'
         id='modal'
@@ -71,8 +71,9 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
               })}
             >
               <div className='w-full flex justify-around mt-4'>
-                <label className='text-gray-600 font-bold mt-1'>タイトル</label>
+                <label htmlFor='title' className='text-gray-600 font-bold mt-1'>タイトル</label>
                 <input
+                  id='title'
                   className='w-3/4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500'
                   type='text'
                   {...register('title', {
@@ -83,17 +84,20 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
               <ErrorMessage
                 errors={errors}
                 name='title'
-                render={({ messages }) => messages == undefined
-                    ? null
-                    : Object.entries(messages).map(([type, message]) => (
-                        <p className='text-red-500 text-center' key={type}>
-                          {message}
-                        </p>
-                      ))}
+                render={({ messages }) => messages && (
+                  <div>
+                    {Object.entries(messages).map(([type, message]) => (
+                      <p className='text-red-500 text-center' key={type}>
+                        {message}
+                      </p>
+                    ))}
+                  </div>
+                )}
               />
               <div className='w-full flex justify-around mt-4'>
-                <label className='text-gray-600 font-bold mt-1'>内容</label>
+                <label htmlFor='content' className='text-gray-600 font-bold mt-1'>内容</label>
                 <textarea
+                  id='content'
                   className='w-3/4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500'
                   rows={5}
                   {...register('content', {
@@ -104,16 +108,18 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
               <ErrorMessage
                 errors={errors}
                 name='content'
-                render={({ messages }) => messages == undefined
-                    ? null
-                    : Object.entries(messages).map(([type, message]) => (
-                        <p className='text-red-500 text-center' key={type}>
-                          {message}
-                        </p>
-                      ))}
+                render={({ messages }) => messages && (
+                  <div>
+                    {Object.entries(messages).map(([type, message]) => (
+                      <p className='text-red-500 text-center' key={type}>
+                        {message}
+                      </p>
+                    ))}
+                  </div>
+                )}
               />
               <div className='w-full flex justify-around my-4'>
-                <label className='text-gray-600 font-bold mt-1'>期限 </label>
+                <label htmlFor='scheduledDate' className='text-gray-600 font-bold mt-1'>期限 </label>
                 <input
                   id='scheduledDate'
                   type='date'
@@ -132,10 +138,10 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
               </div>
             </form>
             <button
+              type='button'
               className='cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600'
               onClick={() => setShow(false)}
               aria-label='close modal'
-              role='button'
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -157,8 +163,6 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
           </div>
         </div>
       </div>
-    );
-  } 
-    return null;
+    : undefined );
   
 }

@@ -1,5 +1,4 @@
 import { TodoList } from '../TodoList';
-import { AddTodoItem } from '../AddTodoItem';
 
 /**
  * 完了したタスクを表示するページ

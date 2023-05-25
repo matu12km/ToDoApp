@@ -14,15 +14,17 @@ export function SettingPage(): JSX.Element {
   const [themeColor, setThemeColor] = useRecoilState<ThemeColor>(themeColorState);
   // テーマ背景色
   const [themeBgColor, setThemeBgColor] = useState<string>(themeColor.bgColor);
-  const handleBgColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setThemeBgColor(e.target.value.toString());
+  const handleBgColorChange = (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+    setThemeBgColor(changeEvent.target.value.toString());
   };
   // テーマフォント色
   const [themeFontColor, setThemeFontColor] = useState<string>(themeColor.textColor);
-  const handleFontColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setThemeFontColor(e.target.value.toString());
+  const handleFontColorChange = (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
+    setThemeFontColor(changeEvent.target.value.toString());
   };
 
+  const [show, setShow] = useState(false);
+  const [onConfirm, setOnConfirm] = useState(false);
   /**
    * 保存ボタン押下時の処理
    * @returns
@@ -39,11 +41,10 @@ export function SettingPage(): JSX.Element {
           textColor: themeFontColor,
           accentColor: reAccentColor
         });
-      } else {
-      }
+      } 
     } else {
       // 保存処理
-      console.log('保存処理');
+      // console.log('保存処理');
       setThemeColor({
         bgColor: themeBgColor,
         textColor: themeFontColor,
@@ -52,13 +53,11 @@ export function SettingPage(): JSX.Element {
     }
   };
 
-  const [show, setShow] = useState(false);
-  const [onConfirm, setOnConfirm] = useState(false);
 
   return (
     <div className='h-full ml-14 mt-16 mb-10 md:ml-72'>
       <h1 className='text-2xl text-gray-800 mb-8'>設定</h1>
-      <label htmlFor='themeColor'>テーマ背景色</label>
+      <label htmlFor='themeBgColor'>テーマ背景色</label>
       <input
         type='color'
         id='themeBgColor'
@@ -74,7 +73,7 @@ export function SettingPage(): JSX.Element {
         value={themeFontColor}
         onChange={handleFontColorChange}
        />
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleSave}>
+      <button type='button' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleSave}>
         保存
       </button>
       <ContrastAlertModal show={show} setShow={setShow} setOnConfirm={setOnConfirm} />

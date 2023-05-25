@@ -1,31 +1,5 @@
 import { convertHtmlColorToSrgb } from './ColorContrastChecker';
 
-/**
- * アクセントカラーを求める関数
- * @param {string} colorCode - HTMLカラーコード
- * @returns {string} アクセントカラーのHTMLカラーコード
- */
-export function getAccentColor(colorCode: string): string {
-  // HTMLカラーコードをsRGBに変換する
-  const rgb = convertHtmlColorToSrgb(colorCode);
-
-  // sRGBからHSLに変換する
-  const hsl = srgbToHsl(rgb[0], rgb[1], rgb[2]);
-
-  // HSLから補色を求める
-  let similarH = (hsl[0] + 180) % 360;
-  if (similarH < 0) {
-    similarH += 360;
-  }
-
-  // HSLからHTMLカラーコードに変換する
-  const accentRGB = hslToRgb(similarH, hsl[1], hsl[2]);
-  const accentColorCode = rgbToHex(accentRGB[0], accentRGB[1], accentRGB[2]);
-
-  // HTMLカラーコードを返す
-  return accentColorCode;
-}
-
 // sRGBからHSLに変換する関数
 /**
  * sRGBからHSLに変換する関数
@@ -53,22 +27,26 @@ function srgbToHsl(r: number, g: number, b: number): [number, number, number] {
   // 彩度を求める
   if (delta !== 0) {
     switch (cmax) {
-    case r: {
-      h = ((g - b) / delta) % 6;
-    
-    break;
-    }
-    case g: {
-      h = (b - r) / delta + 2;
-    
-    break;
-    }
-    case b: {
-      h = (r - g) / delta + 4;
-    
-    break;
-    }
-    // No default
+      case r: {
+        h = ((g - b) / delta) % 6;
+
+        break;
+      }
+      case g: {
+        h = (b - r) / delta + 2;
+
+        break;
+      }
+      case b: {
+        h = (r - g) / delta + 4;
+
+        break;
+      }
+      default: {
+        break;
+      }
+
+      // No default
     }
     h = Math.round(h * 60);
     if (h < 0) {
@@ -98,7 +76,9 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
   const c = (1 - Math.abs(2 * l - 1)) * s;
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
   const m = l - c / 2;
-  let r; let g; let b;
+  let r;
+  let g;
+  let b;
   if (h >= 0 && h < 60) {
     [r, g, b] = [c, x, 0];
   } else if (h >= 60 && h < 120) {
@@ -116,6 +96,18 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
 }
 
 /**
+ * 10進数を16進数に変換する関数
+ * @param {number} x - 10進数
+ * @returns {string} 16進数
+ */
+function toHex(x: number) {
+  const hex = Math.max(0, Math.min(255, Math.round(x)))
+    .toString(16)
+    .padStart(2, '0');
+  return hex.length === 1 ? `0${hex}` : hex;
+}
+
+/**
  * RGBからHTMLカラーコードに変換する関数
  * 処理の概要
  * 1. RGB値を0-255の範囲にスケーリングする
@@ -126,12 +118,31 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
  * @returns {string} HTMLカラーコード
  */
 function rgbToHex(r: number, g: number, b: number): string {
-  // RGB値を0〜255の範囲にスケーリングし、16進数に変換
-  const toHex = (x: number) => {
-    const hex = Math.max(0, Math.min(255, Math.round(x)))
-      .toString(16)
-      .padStart(2, '0');
-    return hex.length === 1 ? `0${  hex}` : hex;
-  };
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/**
+ * アクセントカラーを求める関数
+ * @param {string} colorCode - HTMLカラーコード
+ * @returns {string} アクセントカラーのHTMLカラーコード
+ */
+export function getAccentColor(colorCode: string): string {
+  // HTMLカラーコードをsRGBに変換する
+  const rgb = convertHtmlColorToSrgb(colorCode);
+
+  // sRGBからHSLに変換する
+  const hsl = srgbToHsl(rgb[0], rgb[1], rgb[2]);
+
+  // HSLから補色を求める
+  let similarH = (hsl[0] + 180) % 360;
+  if (similarH < 0) {
+    similarH += 360;
+  }
+
+  // HSLからHTMLカラーコードに変換する
+  const accentRGB = hslToRgb(similarH, hsl[1], hsl[2]);
+  const accentColorCode = rgbToHex(accentRGB[0], accentRGB[1], accentRGB[2]);
+
+  // HTMLカラーコードを返す
+  return accentColorCode;
 }

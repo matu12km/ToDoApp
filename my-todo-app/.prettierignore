@@ -6,3 +6,4 @@ node_modules
 .gitignore
 *.json
 *.yml
+tests

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useRecoilValue } from 'recoil';
 import { tasksState } from '../stores/TaskState';
 import { TodoItem } from './TodoItem';
 import { type Task } from '../types/TodoListType';
@@ -13,20 +13,20 @@ import { Sort } from './Sort';
  */
 export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
   // タスク一覧を取得
-  const [tasks, setTasks] = useRecoilState<Task[]>(tasksState);
+  const tasks = useRecoilValue<Task[]>(tasksState);
 
-  let temporaryTasks = [...tasks];
+  const temporaryTasks =  useMemo(() => {;
   // taskFlagによって表示するタスクをフィルターする
   switch (taskFlag) {
     // すべてのタスクを取得
     case 'all': {
-      break;
+      return [...tasks];
     }
     // 今日のタスクを取得
     case 'today': {
-      temporaryTasks = tasks.filter((task) => {
+      return tasks.filter((task) => {
         const today = new Date();
-        if (task.scheduledDate != undefined) {
+        if (task.scheduledDate !== null) {
           const scheduledDate = new Date(task.scheduledDate);
           return (
             today.getFullYear() === scheduledDate.getFullYear() &&
@@ -34,14 +34,14 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
             today.getDate() === scheduledDate.getDate()
           );
         }
+      return false;
       });
-      break;
     }
     // 未来のタスクを取得
     case 'future': {
-      temporaryTasks = tasks.filter((task) => {
+      return tasks.filter((task) => {
         const today = new Date();
-        if (task.scheduledDate != undefined) {
+        if (task.scheduledDate !== null) {
           const scheduledDate = new Date(task.scheduledDate);
           return (
             today.getFullYear() < scheduledDate.getFullYear() ||
@@ -49,14 +49,14 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
             today.getDate() < scheduledDate.getDate()
           );
         }
+        return false;
       });
-      break;
     }
     // 期限切れのタスクを取得
     case 'Expired': {
-      temporaryTasks = tasks.filter((task) => {
+      return tasks.filter((task) => {
         const today = new Date();
-        if (task.scheduledDate != undefined) {
+        if (task.scheduledDate !== null) {
           const scheduledDate = new Date(task.scheduledDate);
           return (
             today.getFullYear() > scheduledDate.getFullYear() ||
@@ -64,39 +64,63 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
             today.getDate() > scheduledDate.getDate()
           );
         }
+        return false;
       });
-      break;
     }
     // 期限なしのタスクを取得
     case 'noDeadline': {
-      temporaryTasks = tasks.filter((task) => task.scheduledDate == undefined);
-      break;
+      return tasks.filter((task) => task.scheduledDate === undefined);
     }
     // 完了済みのタスクを取得
     case 'completed': {
-      temporaryTasks = tasks.filter((task) => task.completed);
-      break;
+      return tasks.filter((task) => task.completed );
     }
 
     default: {
-      break;
+      return [...tasks]
     }
   }
-
+}, [tasks, taskFlag]);
+  
   const [order, setOrder] = useState('desc');
   const [displayed, setDisplayed] = useState('9999');
   const [compleatedFlg, setCompleatedFlg] = useState(false);
   const [sortedTasks, setSortedTasks] = useState<Task[]>(temporaryTasks);
 
+   /**
+   * 日付でソートするための関数
+   * orderStateの値によって、昇順か降順かを判定する
+   * @param a {Task} - ソート対象のタスク
+   * @param b {Task} - ソート対象のタスク
+   * @returns {number} - 1(aがbより後) or -1(aがbより前) or 0(aとbの順番は変わらない)
+   */
+   const compare = useCallback((a: Task, b: Task): number => {
+    // 期限が設定されていないタスクは、最後に表示する
+    if (a.scheduledDate === null) {
+      return 1;
+    }
+    if (b.scheduledDate === null) {
+      return -1;
+    }
+    // 期限が近い順にソートする
+    if (a.scheduledDate < b.scheduledDate) {
+      return order === 'asc' ? -1 : 1;
+    }
+    if (a.scheduledDate > b.scheduledDate) {
+      return order === 'asc' ? 1 : -1;
+    }
+    return 0;
+  }, [order]);
+
   // orderStateの値が変更されたら、ソートする
   useEffect(() => {
     setSortedTasks(temporaryTasks.length > 1 ? [...temporaryTasks].sort(compare) : temporaryTasks);
-  }, [tasks, order]);
+  }, [tasks, order, compare, temporaryTasks]);
 
   // displayedStateの値が変更されたら、表示するタスクを制限する
   useEffect(() => {
-    setSortedTasks(temporaryTasks.length > 1 ? [...temporaryTasks].sort(compare).slice(0, Number.parseInt(displayed)) : temporaryTasks);
-  }, [tasks, displayed]);
+    setSortedTasks(temporaryTasks.length > 1 ? [...temporaryTasks].sort(compare).slice(0, Number.parseInt(displayed, 10)) : temporaryTasks);
+  }, [tasks, displayed, compare, temporaryTasks]);
 
   // compleatedFlgの値が変更されたら、完了済みのタスクを表示するかどうかを制御する
   useEffect(() => {
@@ -111,39 +135,9 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
     } else {
       setSortedTasks(temporaryTasks.length > 1 ? [...temporaryTasks].sort(compare) : temporaryTasks);
     }
-  }, [tasks, compleatedFlg]);
+  }, [tasks, compleatedFlg, compare, temporaryTasks]);
 
-  /**
-   * 日付でソートするための関数
-   * orderStateの値によって、昇順か降順かを判定する
-   * @param a {Task} - ソート対象のタスク
-   * @param b {Task} - ソート対象のタスク
-   * @returns {number} - 1(aがbより後) or -1(aがbより前) or 0(aとbの順番は変わらない)
-   */
-  function compare(a: Task, b: Task): number {
-    // 期限が設定されていないタスクは、最後に表示する
-    if (a.scheduledDate == undefined) {
-      return 1;
-    }
-    if (b.scheduledDate == undefined) {
-      return -1;
-    }
-    if (new Date(a.scheduledDate) > new Date(b.scheduledDate)) {
-      if (order === 'asc') {
-        return 1;
-      } 
-        return -1;
-      
-    }
-    if (new Date(a.scheduledDate) < new Date(b.scheduledDate)) {
-      if (order === 'asc') {
-        return -1;
-      } 
-        return 1;
-      
-    }
-    return 0;
-  }
+ 
 
   return (
     <div className='rounded bg-gray-200 dark:bg-gray-800 p-3 mr-14'>

@@ -13,14 +13,14 @@ export function SideBar(): JSX.Element {
   const [hoverItem, setHoverItem] = useState('');
 
   // マウスオーバー時の処理
-  const handleHover = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleHover = (mouseEvent: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     setIsHover(true);
-    setHoverItem(e.currentTarget.id);
+    setHoverItem(mouseEvent.currentTarget.id);
   };
 
   // マウスアウト時の処理
-  const handleLeave = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    if (hoverItem === e.currentTarget.id) {
+  const handleLeave = (mouseEvent: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    if (hoverItem === mouseEvent.currentTarget.id) {
       setIsHover(false);
       setHoverItem('');
     }
@@ -267,10 +267,10 @@ export function SideBar(): JSX.Element {
                 to='setting'
                 id='setting'
                 className='relative flex flex-row items-center h-11 focus:outline-none hover:border-l-4 pr-6'
-                onMouseEnter={(e) => {
+                onMouseEnter={() => {
                   setIsHover(true);
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={() => {
                   setIsHover(false);
                 }}
                 style={menuItemStyle}

@@ -9,8 +9,8 @@ const SRGB_ALPHA = 0.055;
  */
 export function convertHtmlColorToSrgb(colorCode: string): [number, number, number] {
   const hex = colorCode.replace(/^#?([\da-f])([\da-f])([\da-f])$/i, (r, g, b) => r + r + g + g + b + b);
-  const rgb = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex);
-  if (rgb != undefined) {
+  const rgb = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex) ?? undefined;
+  if (rgb !== undefined) {
     const r = Number.parseInt(rgb[1], 16);
     const g = Number.parseInt(rgb[2], 16);
     const b = Number.parseInt(rgb[3], 16);
