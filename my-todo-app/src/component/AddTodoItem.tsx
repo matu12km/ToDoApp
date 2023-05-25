@@ -7,9 +7,9 @@ import { type Task } from '../types/TodoListType';
 /**
  * タスク追加モーダルを表示するコンポーネント
  * @param {Object} { show, setShow } - タスク追加モーダルの表示・非表示を管理する
- * @returns {JSX.Element | undefined} - タスク追加モーダル
+ * @returns {JSX.Element | null} - タスク追加モーダル
  */
-export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }): JSX.Element | undefined {
+export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }): JSX.Element | null {
   const [tasks, setTasks] = useRecoilState<Task[]>(tasksState);
   const {
     register,
@@ -163,6 +163,6 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
           </div>
         </div>
       </div>
-    : undefined );
+    : null );
   
 }
