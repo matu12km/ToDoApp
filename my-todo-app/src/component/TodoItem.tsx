@@ -11,7 +11,7 @@ interface Properties {
  * @param {number} id - タスクのid
  * @returns {JSX.Element} - タスク
  */
-export function TodoItem({ id }: Properties): JSX.Element | undefined {
+export function TodoItem({ id }: Properties): JSX.Element | null {
   const tasks = useRecoilValue(tasksState);
   const [show, setShow] = useState(false);
   const title = tasks.find((task) => task.id === id)?.title;
