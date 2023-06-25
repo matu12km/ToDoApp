@@ -13,9 +13,11 @@ export function AddTodoButton(): JSX.Element {
   };
 
   return (
-    <div className='mt-4'>
+    <div className='mr-14' style={{width:'98%'}}>
       <button
-        className='focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm'
+        className='focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out 
+        hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm'
+        style={{margin: '0 0 0 auto', display: 'block'}}
         onClick={handleClicked}
         type='button'
       >
