@@ -16,12 +16,33 @@ export function TodoItem({ id }: Properties): JSX.Element | null {
   const [show, setShow] = useState(false);
   const title = tasks.find((task) => task.id === id)?.title;
   const text = tasks.find((task) => task.id === id)?.content;
-  const scheduledDate = tasks.find((task) => task.id === id)?.scheduledDate;
+  const scheduledDate = tasks.find((task) => task.id === id)?.scheduledDate; // 期限
   const completed = tasks.find((task) => task.id === id)?.completed;
+
+  // 期限がn日後のタスクは赤色で表示する。
+  const today = new Date();
+  const scheduledDateObj = new Date(scheduledDate || '');
+  const diff = scheduledDateObj.getTime() - today.getTime();
+  const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+
+
+  function setBackgroudColor() {
+    if (completed === 'true') {
+      return 'gray';
+    }
+    if (diffDays <= 0) {
+      return '#ffb6c1';
+    }
+    if (diffDays === 1) {
+      return '#ffffe0';
+    }
+    return '#fff';
+  };
+
   const handleClicked = () => {
     setShow(!show);
   };
-
+  
   return (
     <>
       <div
@@ -34,8 +55,9 @@ export function TodoItem({ id }: Properties): JSX.Element | null {
         }}
         tabIndex={0}
         role='button'
-        style={{ backgroundColor: completed ? 'gray' : 'bg-white' }}
+        style={{ backgroundColor: setBackgroudColor() }}
       >
+        
         <h4 className='text-xl'>{title}</h4>
         <div className='flex'>
           <h5 className='mr-3'>期限：</h5>

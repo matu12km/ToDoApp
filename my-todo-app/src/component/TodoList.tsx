@@ -69,11 +69,11 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
     }
     // 期限なしのタスクを取得
     case 'noDeadline': {
-      return tasks.filter((task) => task.scheduledDate === undefined);
+      return tasks.filter((task) => task.scheduledDate === "");
     }
     // 完了済みのタスクを取得
     case 'completed': {
-      return tasks.filter((task) => task.completed );
+      return tasks.filter((task) => task.completed === 'true' );
     }
 
     default: {
@@ -96,10 +96,14 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
    */
    const compare = useCallback((a: Task, b: Task): number => {
     // 期限が設定されていないタスクは、最後に表示する
-    if (a.scheduledDate === null) {
+    console.log(`a.scheduledDate: ${a.scheduledDate}`)
+    console.log(`a.scheduledDate: ${a.scheduledDate}`)
+    if (a.scheduledDate === "") {
+      console.log('a');
       return 1;
     }
-    if (b.scheduledDate === null) {
+    if (b.scheduledDate === "") {
+      console.log('b');
       return -1;
     }
     // 期限が近い順にソートする
@@ -128,7 +132,7 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
       setSortedTasks(
         temporaryTasks.length > 1
           ? temporaryTasks
-              .filter((task) => !task.completed)
+              .filter((task) => task.completed !== 'true')
               .sort(compare)
           : temporaryTasks
       );
@@ -140,7 +144,7 @@ export function TodoList({ taskFlag }: { taskFlag: string }): JSX.Element {
  
 
   return (
-    <div className='rounded bg-gray-200 dark:bg-gray-800 p-3 mr-14'>
+    <div className='rounded bg-gray-200 dark:bg-gray-800 p-3 mr-14' style={{width:'98%'}}>
       <Sort setOrder={setOrder} setDisplayed={setDisplayed} setCompleatedFlg={setCompleatedFlg} />
       {sortedTasks.length === 0 && <p className='text-gray-500'>タスクがありません</p>}
       {sortedTasks.map((task) => (

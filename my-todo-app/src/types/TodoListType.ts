@@ -11,9 +11,9 @@ export interface Task {
   id: number;
   title: string;
   content: string;
-  scheduledDate: Date | null;
+  scheduledDate: Date | "";
   udpatedDate: Date;
-  completed: boolean;
+  completed: string;
 }
 /**
  * ThemeColorの型定義

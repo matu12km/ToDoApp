@@ -21,7 +21,7 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
     defaultValues: {
       title: '',
       content: '',
-      scheduledDate: undefined
+      scheduledDate: ""
     }
   });
 
@@ -33,9 +33,9 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
     id?: number;
     title: string;
     content: string;
-    scheduledDate: Date | null;
+    scheduledDate: Date | "";
     udpatedDate?: Date;
-    completed?: boolean;
+    completed?: string;
   }) => {
     const nowDate = new Date();
     const newTask = {
@@ -44,14 +44,14 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
       content: data.content,
       scheduledDate: data.scheduledDate,
       udpatedDate: nowDate,
-      completed: false
+      completed: 'false'
     };
     // console.log(data);
     setTasks([...tasks, newTask]);
     reset({
       title: '',
       content: '',
-      scheduledDate: undefined
+      scheduledDate: ''
     });
     setShow(false);
   };
@@ -81,19 +81,7 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
                   })}
                 />
               </div>
-              <ErrorMessage
-                errors={errors}
-                name='title'
-                render={({ messages }) => messages && (
-                  <div>
-                    {Object.entries(messages).map(([type, message]) => (
-                      <p className='text-red-500 text-center' key={type}>
-                        {message}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              />
+              {errors.title && <p className='text-red-500 text-center'>タイトルは必須項目です</p>}
               <div className='w-full flex justify-around mt-4'>
                 <label htmlFor='content' className='text-gray-600 font-bold mt-1'>内容</label>
                 <textarea
@@ -105,19 +93,7 @@ export function AddTodoItem({ show, setShow }: { show: boolean; setShow: any }):
                   })}
                 />
               </div>
-              <ErrorMessage
-                errors={errors}
-                name='content'
-                render={({ messages }) => messages && (
-                  <div>
-                    {Object.entries(messages).map(([type, message]) => (
-                      <p className='text-red-500 text-center' key={type}>
-                        {message}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              />
+              {errors.content && <p className='text-red-500 text-center'>内容は必須項目です</p>}
               <div className='w-full flex justify-around my-4'>
                 <label htmlFor='scheduledDate' className='text-gray-600 font-bold mt-1'>期限 </label>
                 <input

@@ -14,11 +14,11 @@ export function Sort({
 }): JSX.Element {
   return (
     <div className='flex justify-end'>
-      <div className='flex items-center'>
-        <span className='mr-2'>期限順で並び替え</span>
-        <select className='border border-gray-300 rounded-md px-2 py-1 w-24' onChange={(event) => setOrder(event.target.value)}>
-          <option value='desc'>新しい順</option>
-          <option value='asc'>古い順</option>
+      <div className='flex items-center flex-wrap'>
+        <span className='mr-2'>並び替え</span>
+        <select className='border border-gray-300 rounded-md px-2 py-1 w-36' onChange={(event) => setOrder(event.target.value)}>
+          <option value='desc'>期限が遅い順</option>
+          <option value='asc'>期限が近い順</option>
         </select>
         <span className='ml-2'>表示件数</span>
         <select

@@ -74,7 +74,7 @@ export function SideBar(): JSX.Element {
                     <path d='M12 15v3' />
                   </svg>
                 </span>
-                <span className='ml-2 text-sm tracking-wide truncate'>すべて</span>
+                <span className='ml-2 text-sm tracking-wide truncate'>すべてのタスク</span>
               </Link>
             </li>
             <li>
@@ -109,117 +109,7 @@ export function SideBar(): JSX.Element {
                     <path d='M8 15h2v2h-2z' />
                   </svg>{' '}
                 </span>
-                <span className='ml-2 text-sm tracking-wide truncate'>今日</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='future'
-                id='future'
-                className='relative flex flex-row items-center h-11 focus:outline-none hover:border-l-4 pr-6'
-                onMouseEnter={(event) => {
-                  handleHover(event);
-                }}
-                onMouseLeave={(event) => {
-                  handleLeave(event);
-                }}
-                style={menuItemStyle}
-              >
-                <span className='inline-flex justify-center items-center ml-4'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='w-5 h-5'
-                    viewBox='0 0 24 24'
-                    strokeWidth='2'
-                    stroke='currentColor'
-                    fill='none'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  >
-                    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-                    <path d='M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4' />
-                    <path d='M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0' />
-                    <path d='M15 3v4' />
-                    <path d='M7 3v4' />
-                    <path d='M3 11h16' />
-                    <path d='M18 16.496v1.504l1 1' />
-                  </svg>{' '}
-                </span>
-                <span className='ml-2 text-sm tracking-wide truncate'>未来</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='nodeadline'
-                id='nodeadline'
-                className='relative flex flex-row items-center h-11 focus:outline-none hover:border-l-4 pr-6'
-                onMouseEnter={(event) => {
-                  handleHover(event);
-                }}
-                onMouseLeave={(event) => {
-                  handleLeave(event);
-                }}
-                style={menuItemStyle}
-              >
-                <span className='inline-flex justify-center items-center ml-4'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='w-5 h-5'
-                    viewBox='0 0 24 24'
-                    strokeWidth='2'
-                    stroke='currentColor'
-                    fill='none'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  >
-                    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-                    <path d='M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5' />
-                    <path d='M16 3v4' />
-                    <path d='M8 3v4' />
-                    <path d='M4 11h16' />
-                    <path d='M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0' />
-                    <path d='M17 21l4 -4' />
-                  </svg>{' '}
-                </span>
-                <span className='ml-2 text-sm tracking-wide truncate'>期日なし</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to='expired'
-                id='expired'
-                className='relative flex flex-row items-center h-11 focus:outline-none hover:border-l-4 pr-6'
-                onMouseEnter={(event) => {
-                  handleHover(event);
-                }}
-                onMouseLeave={(event) => {
-                  handleLeave(event);
-                }}
-                style={menuItemStyle}
-              >
-                <span className='inline-flex justify-center items-center ml-4'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='w-5 h-5'
-                    viewBox='0 0 24 24'
-                    strokeWidth='2'
-                    stroke='currentColor'
-                    fill='none'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                  >
-                    <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-                    <path d='M15 21h-9a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5' />
-                    <path d='M16 3v4' />
-                    <path d='M8 3v4' />
-                    <path d='M4 11h16' />
-                    <path d='M11 15h1' />
-                    <path d='M12 15v3' />
-                    <path d='M19 16v3' />
-                    <path d='M19 22v.01' />
-                  </svg>{' '}
-                </span>
-                <span className='ml-2 text-sm tracking-wide truncate'>期限切れ</span>
+                <span className='ml-2 text-sm tracking-wide truncate'>今日のタスク</span>
               </Link>
             </li>
             <li>
